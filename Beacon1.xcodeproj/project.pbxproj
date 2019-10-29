@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A7D276A52A7038287ABAC4D /* Pods_Beacon1_Beacon1UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690A0A2D42D7C12F35DAE671 /* Pods_Beacon1_Beacon1UITests.framework */; };
+		160B1433235200840015F74E /* Kanit-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 160B1431235200840015F74E /* Kanit-Bold.ttf */; };
+		160B1434235200840015F74E /* Kanit-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 160B1432235200840015F74E /* Kanit-Regular.ttf */; };
+		1631C1D92358B31F00CFADAE /* SidebarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1631C1D82358B31F00CFADAE /* SidebarTableView.swift */; };
 		167EA3F922FC5CC800D39DB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167EA3F822FC5CC800D39DB4 /* AppDelegate.swift */; };
 		167EA3FB22FC5CC800D39DB4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167EA3FA22FC5CC800D39DB4 /* SceneDelegate.swift */; };
 		167EA3FD22FC5CC800D39DB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167EA3FC22FC5CC800D39DB4 /* ViewController.swift */; };
@@ -39,7 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		167EA3F522FC5CC800D39DB4 /* Beacon1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beacon1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		160B1431235200840015F74E /* Kanit-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kanit-Bold.ttf"; sourceTree = "<group>"; };
+		160B1432235200840015F74E /* Kanit-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kanit-Regular.ttf"; sourceTree = "<group>"; };
+		1631C1D82358B31F00CFADAE /* SidebarTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableView.swift; sourceTree = "<group>"; };
+		167EA3F522FC5CC800D39DB4 /* Sydney Villages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sydney Villages.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		167EA3F822FC5CC800D39DB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		167EA3FA22FC5CC800D39DB4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		167EA3FC22FC5CC800D39DB4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,9 +99,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		160B1430235200510015F74E /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				160B1431235200840015F74E /* Kanit-Bold.ttf */,
+				160B1432235200840015F74E /* Kanit-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		167EA3EC22FC5CC800D39DB4 = {
 			isa = PBXGroup;
 			children = (
+				160B1430235200510015F74E /* Fonts */,
 				167EA3F722FC5CC800D39DB4 /* Beacon1 */,
 				167EA41122FC5CCA00D39DB4 /* Beacon1Tests */,
 				167EA41C22FC5CCA00D39DB4 /* Beacon1UITests */,
@@ -108,7 +124,7 @@
 		167EA3F622FC5CC800D39DB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				167EA3F522FC5CC800D39DB4 /* Beacon1.app */,
+				167EA3F522FC5CC800D39DB4 /* Sydney Villages.app */,
 				167EA40E22FC5CCA00D39DB4 /* Beacon1Tests.xctest */,
 				167EA41922FC5CCA00D39DB4 /* Beacon1UITests.xctest */,
 			);
@@ -122,6 +138,7 @@
 				167EA3FA22FC5CC800D39DB4 /* SceneDelegate.swift */,
 				167EA3FC22FC5CC800D39DB4 /* ViewController.swift */,
 				167EA3FE22FC5CC800D39DB4 /* Main.storyboard */,
+				1631C1D82358B31F00CFADAE /* SidebarTableView.swift */,
 				167EA40422FC5CCA00D39DB4 /* Assets.xcassets */,
 				167EA40622FC5CCA00D39DB4 /* LaunchScreen.storyboard */,
 				167EA40922FC5CCA00D39DB4 /* Info.plist */,
@@ -190,7 +207,7 @@
 			);
 			name = Beacon1;
 			productName = Beacon1;
-			productReference = 167EA3F522FC5CC800D39DB4 /* Beacon1.app */;
+			productReference = 167EA3F522FC5CC800D39DB4 /* Sydney Villages.app */;
 			productType = "com.apple.product-type.application";
 		};
 		167EA40D22FC5CCA00D39DB4 /* Beacon1Tests */ = {
@@ -280,9 +297,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				160B1434235200840015F74E /* Kanit-Regular.ttf in Resources */,
 				167EA40822FC5CCA00D39DB4 /* LaunchScreen.storyboard in Resources */,
 				167EA40522FC5CCA00D39DB4 /* Assets.xcassets in Resources */,
 				167EA40022FC5CC800D39DB4 /* Main.storyboard in Resources */,
+				160B1433235200840015F74E /* Kanit-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +430,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				167EA3FD22FC5CC800D39DB4 /* ViewController.swift in Sources */,
+				1631C1D92358B31F00CFADAE /* SidebarTableView.swift in Sources */,
 				167EA40322FC5CC800D39DB4 /* Beacon1.xcdatamodeld in Sources */,
 				167EA3F922FC5CC800D39DB4 /* AppDelegate.swift in Sources */,
 				167EA3FB22FC5CC800D39DB4 /* SceneDelegate.swift in Sources */,
@@ -596,7 +616,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Jacob.Beacon1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Sydney Villages";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -617,7 +637,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Jacob.Beacon1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Sydney Villages";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

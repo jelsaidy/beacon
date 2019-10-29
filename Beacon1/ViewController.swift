@@ -16,7 +16,8 @@ import SideMenu
 class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationDelegate, UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var firstName: UITextView!
+    @IBOutlet weak var nameLabel: UILabel!
+
 
 
     var locationManager: CLLocationManager!
@@ -24,6 +25,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     let notificationCenter = UNUserNotificationCenter.current()
     
     var notif = 0
+    var url1:String?
+    var login: Bool = false
+    var firstname1 = ""
     //save somewhere (user defaults)
     
     
@@ -36,6 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     
     }
  */
+    
     struct Response: Decodable {
         let billing_company_name: String
         let company_name: String
@@ -62,10 +67,59 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
         let first_name: String
     }
     
-
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    NotificationCenter.default.addObserver(self, selector: #selector(self.handleNotification), name: NSNotification.Name(rawValue: "OpenURL"), object: nil)
+        if let url = URL(string: "https://www.villages.sydney/account?json=1") {
+           URLSession.shared.dataTask(with: url) { data, response, error in
+              if let data = data {
+                  do {
+                     let res = try JSONDecoder().decode(Response.self, from: data)
+                    self.nameLabel.text = res.first_name + " " + res.last_name
+                    self.firstname1 = res.first_name
+                    print(self.firstname1)
+                    print(res.first_name + " " + res.last_name + " " + res.interests)
+                  } catch let error {
+                     print(error)
+                  }
+               }
+           }.resume()
+        }
+        
+        if firstname1 != " " {
+                let userInfo1 = ["vclog" : true]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "vclog"), object: nil, userInfo: userInfo1)
+            self.login = true
+            
+            print(self.login)
+        } else if firstname1 == " " {
+            let userInfo1 = ["vclog" : false]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "vclog"), object: nil, userInfo: userInfo1)
+            self.login = false
+            print(self.login)
+        }
+        
+             setToolBar()
+        print(firstname1)
+             
+             
+        if firstname1 == " " {
+               let url = URL(string: "https://www.villages.sydney/app-login?hide_header=1")!
+               webView.load(URLRequest(url: url))
+           } else if firstname1 != " " {
+               let url = URL(string: "https://www.villages.sydney/?hide_header=1")!
+               webView.load(URLRequest(url: url))
+           }
+              
+    }
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
+    
+    
+       //URL Code to load the website and add a toolbar (Toolbar still not appearing)
+
+  
     
 
         //Initialising the location services, requesting authorisation
@@ -98,10 +152,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
             locationManager.startUpdatingLocation()
         }
         
-        //URL Code to load the website and add a toolbar (Toolbar still not appearing)
-        //setToolBar()
-        let url = URL(string: "https://www.villages.sydney")!
-        webView.load(URLRequest(url: url))
+
+        
+        
         
           
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
@@ -120,25 +173,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
         }
  */
         
-            if let url = URL(string: "https://www.villages.sydney/account?json=1") {
-               URLSession.shared.dataTask(with: url) { data, response, error in
-                  if let data = data {
-                      do {
-                         let res = try JSONDecoder().decode(Response.self, from: data)
-                        self.firstName.text = res.first_name + res.last_name
-                         print(res.first_name)
-                      } catch let error {
-                         print(error)
-                      }
-                   }
-               }.resume()
-            }
-        
 
         
-    
-        
     }
+    
+    
+    @objc func handleNotification(notification: Notification) {
+        if let url = notification.userInfo?["url"] {
+            webView.load(URLRequest(url: NSURL(string: url as! String)! as URL))
+            
+        }
+    }
+    
+
     
     private lazy var userRequest: Void = {
 
@@ -151,7 +198,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { action in
         
         self.notif = 0;
-        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { timer in
+        Timer.scheduledTimer(withTimeInterval: 24000.0, repeats: false, block: { timer in
             self.sendNotification(closeness: "Are you sure you don't want notifications?")
             if (self.notif == 0) {
                 self.present(alert, animated: true)
@@ -204,17 +251,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
         if (minor == 10001) {
             let url = URL(string: "https://www.villages.sydney/oxford-street")!
             webView.load(URLRequest(url: url))
-            self.sendNotification(closeness: "you are near oxford st")
+            self.sendNotification(closeness: "You are near Oxford St")
         }
         else if (minor == 10009) {
             let url = URL(string: "https://www.villages.sydney/newtown")!
             webView.load(URLRequest(url: url))
-            self.sendNotification(closeness: "you are near newtown")
+            self.sendNotification(closeness: "You are near Newtown")
         }
         else if (minor == 10001){
             let url = URL(string: "https://www.villages.sydney/pyrmont-ultimo")!
             webView.load(URLRequest(url: url))
-            self.sendNotification(closeness: "you are near pyrmont/ultimo")
+            self.sendNotification(closeness: "You are near Pyrmont/Ultimo")
         }
         
         }
@@ -346,7 +393,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     }
     
     //Function to add a title when loading the webpage (Not 100% working as of yet)
-    func webView(_ webView: WKWebView, navigation: WKNavigation!, navigationType: UIWebView.NavigationType) {
+    func webView(_ webView: WKWebView, navigation: WKNavigation!, navigationType: WKNavigationType) {
     title = webView.title
     }
     
@@ -355,8 +402,8 @@ func sendNotification(closeness: String) {
     let content = UNMutableNotificationContent()
     let categoryIdentifier5 = "Sydney Villages"
         
-    content.title = "iBeacon";
-    content.subtitle = "Location Notification";
+    content.title = "Not Your Local";
+    //content.subtitle = "Location Notification";
     content.body = closeness;
     content.badge = 1;
     content.categoryIdentifier = categoryIdentifier5
@@ -394,9 +441,12 @@ func sendNotification(closeness: String) {
         toolBar.items = [backButton, forwardButton]
         webView.addSubview(toolBar)
     // Constraints
+        
+      
         toolBar.bottomAnchor.constraint(equalTo: webView.bottomAnchor, constant: 0).isActive = true
         toolBar.leadingAnchor.constraint(equalTo: webView.leadingAnchor, constant: 0).isActive = true
         toolBar.trailingAnchor.constraint(equalTo: webView.trailingAnchor, constant: 0).isActive = true
+
       }
       @objc private func goBack() {
         if webView.canGoBack {
@@ -451,8 +501,27 @@ func sendNotification(closeness: String) {
     func resetTime() {
         Timer.scheduledTimer(withTimeInterval: 86400, repeats: false, block: {timer in do {self.notif = 0}}
         );}
+    
+    
+    /*
+    func loadWebsite(url1: String) {
+        let backupurl = URL(string: "https://www.villages.sydney/?hide_header=1")
+        let url = (URL(string: url1))!
+        do {
+            let request = URLRequest(url: url)
+            webView.load(request)
+         } catch {
+            let alert = UIAlertController(title: "Sydney Villages", message: "Unable to Load Website", preferredStyle: UIAlertController.Style.alert)
+
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+            self.present(alert, animated: true, completion: nil)
+    }
+    
 }
+ */
     
 
 
 
+}

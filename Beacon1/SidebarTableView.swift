@@ -34,7 +34,7 @@ override func viewDidAppear(_ animated: Bool) {
     
     print(vc.firstname1)
     print(vc.login)
-    if vc.firstname1 != "" {
+    if !vc.firstname1.isEmpty {
         updateText.isHidden = true
         updateProfile.isHidden = true
         
@@ -46,7 +46,7 @@ override func viewDidAppear(_ animated: Bool) {
         
         loginText.isHidden = false
         login.isHidden = false
-    } else if vc.firstname1 == "" {
+    } else if vc.firstname1.isEmpty {
         loginText.isHidden = true
         login.isHidden = true
         

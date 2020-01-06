@@ -68,8 +68,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
         
     NotificationCenter.default.addObserver(self, selector: #selector(self.handleNotification), name: NSNotification.Name(rawValue: "OpenURL"), object: nil)
         if let url = URL(string: "https://www.villages.sydney/account?json=1") {
@@ -77,9 +76,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
               if let data = data {
                   do {
                      let res = try JSONDecoder().decode(Response.self, from: data)
+                    let vc = ViewController()
                     self.nameLabel.text = res.first_name + " " + res.last_name
-                    self.firstname1 = res.first_name
-                    print(self.firstname1)
+                    vc.firstname1 = res.first_name
+                    print(vc.firstname1)
                     print(res.first_name + " " + res.last_name + " " + res.interests)
                   } catch let error {
                      print(error)
@@ -102,23 +102,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
         }
         
              setToolBar()
-        print(firstname1)
              
              
-        if firstname1 == " " {
-               let url = URL(string: "https://www.villages.sydney/app-login?hide_header=1")!
-               webView.load(URLRequest(url: url))
-           } else if firstname1 != " " {
-               let url = URL(string: "https://www.villages.sydney/?hide_header=1")!
-               webView.load(URLRequest(url: url))
-           }
-              
-    }
-    override func viewDidAppear(_ animated: Bool) {
-    
-    
        //URL Code to load the website and add a toolbar (Toolbar still not appearing)
-
+        if firstname1 == " " {
+                  let url = URL(string: "https://www.villages.sydney/app-login?hide_header=1")!
+                  webView.load(URLRequest(url: url))
+              } else if firstname1 != " " {
+                  let url = URL(string: "https://www.villages.sydney/?hide_header=1")!
+                  webView.load(URLRequest(url: url))
+              }
   
     
 
@@ -172,20 +165,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
            }.resume()
         }
  */
-        
-
-        
+                
     }
-    
-    
+
     @objc func handleNotification(notification: Notification) {
         if let url = notification.userInfo?["url"] {
             webView.load(URLRequest(url: NSURL(string: url as! String)! as URL))
             
         }
     }
-    
-
     
     private lazy var userRequest: Void = {
 
@@ -198,26 +186,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
     alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { action in
         
         self.notif = 0;
-        Timer.scheduledTimer(withTimeInterval: 24000.0, repeats: false, block: { timer in
+        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { timer in
             self.sendNotification(closeness: "Are you sure you don't want notifications?")
             if (self.notif == 0) {
                 self.present(alert, animated: true)
             }
     })
-        
     }))
-
     self.present(alert, animated: true)
-
-            
-            
     }()
-    
-    
-
-    
-    
-
+ 
     //Accessing the Core Location Framework to intitate scanning
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {
@@ -249,18 +227,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
         if (notif == 1) {
 
         if (minor == 10001) {
-            let url = URL(string: "https://www.villages.sydney/oxford-street")!
-            webView.load(URLRequest(url: url))
+            //let url = URL(string: "https://www.villages.sydney/oxford-street")!
+            //webView.load(URLRequest(url: url))
             self.sendNotification(closeness: "You are near Oxford St")
         }
         else if (minor == 10009) {
-            let url = URL(string: "https://www.villages.sydney/newtown")!
-            webView.load(URLRequest(url: url))
+           // let url = URL(string: "https://www.villages.sydney/newtown")!
+           // webView.load(URLRequest(url: url))
             self.sendNotification(closeness: "You are near Newtown")
         }
         else if (minor == 10001){
-            let url = URL(string: "https://www.villages.sydney/pyrmont-ultimo")!
-            webView.load(URLRequest(url: url))
+            //let url = URL(string: "https://www.villages.sydney/pyrmont-ultimo")!
+           // webView.load(URLRequest(url: url))
             self.sendNotification(closeness: "You are near Pyrmont/Ultimo")
         }
         
@@ -276,6 +254,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
                 //self.sendNotification(closeness: body)
 
             
+            if (self.notif == 0) {
+                _ = userRequest
+                print (self.notif)
+            } else { break; }
+                
                 }
 
             case .near: do {
@@ -295,7 +278,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, WKNavigationD
                // let body = "Very Close"
                 print("3: " + minor.stringValue)
                // self.sendNotification(closeness: body)
-
+                
+                if (self.notif == 0) {
+                    _ = userRequest
+                    print (self.notif)
+                } else { break; }
             
             }
             
@@ -520,7 +507,6 @@ func sendNotification(closeness: String) {
     
 }
  */
-    
 
 
 
